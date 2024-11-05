@@ -2,8 +2,8 @@
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
-#include <iostream>
 #include <chrono>
+#include <iostream>
 
 #include "altro/augmented_lagrangian/al_solver.hpp"
 #include "altro/common/solver_options.hpp"
@@ -38,7 +38,8 @@ void SolveTripleIntegrator(const bool add_constraints) {
   // solver.GetOptions().verbose = LogLevel::kDebug;
   solver.Solve();
   auto stop = std::chrono::high_resolution_clock::now();
-  std::chrono::duration<double> duration  = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+  std::chrono::duration<double> duration =
+      std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
   fmt::print("Total Compute Time: {:.4f} ms\n", duration.count());
 }
 
@@ -46,12 +47,12 @@ void SolveTripleIntegrator(const bool add_constraints) {
 }  // namespace altro
 
 int main() {
-  fmt::format("Unconstrained Triple Integrator:\n");
+  fmt::print("Unconstrained Triple Integrator:\n");
   bool add_constraints = false;
-  altro::benchmarks::SolveTripleIntegrator(add_constraints);  
+  altro::benchmarks::SolveTripleIntegrator(add_constraints);
 
-  fmt::format("Constrained Triple Integrator:\n");
+  fmt::print("Constrained Triple Integrator:\n");
   add_constraints = true;
-  altro::benchmarks::SolveTripleIntegrator(add_constraints);  
+  altro::benchmarks::SolveTripleIntegrator(add_constraints);
   return 0;
 }

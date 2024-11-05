@@ -49,26 +49,27 @@ class iLQR {
  public:
   explicit iLQR(int N) : N_(N), knotpoints_() { ResetInternalVariables(); }
   explicit iLQR(const problem::Problem& prob)
-      : N_(prob.NumSegments()), initial_state_(std::move(prob.GetInitialStatePointer())) {
+      : N_(prob.NumSegments()), initial_state_(prob.GetInitialStatePointer()) {
     InitializeFromProblem(prob);
   }
 
   iLQR(const iLQR& other) = delete;
   iLQR& operator=(const iLQR& other) = delete;
-  iLQR(iLQR&& other) noexcept : N_(other.N_),
-                                initial_state_(std::move(other.initial_state_)),
-                                stats_(std::move(other.stats_)),
-                                knotpoints_(std::move(other.knotpoints_)),
-                                Z_(std::move(other.Z_)),
-                                Zbar_(std::move(other.Zbar_)),
-                                status_(other.status_),
-                                costs_(std::move(other.costs_)),
-                                grad_(std::move(other.grad_)),
-                                rho_(other.rho_),
-                                drho_(other.drho_),
-                                deltaV_(std::move(other.deltaV_)),
-                                is_initial_state_set(other.is_initial_state_set),
-                                max_violation_callback_(std::move(other.max_violation_callback_)) {}
+  iLQR(iLQR&& other) noexcept
+      : N_(other.N_),
+        initial_state_(std::move(other.initial_state_)),
+        stats_(std::move(other.stats_)),
+        knotpoints_(std::move(other.knotpoints_)),
+        Z_(std::move(other.Z_)),
+        Zbar_(std::move(other.Zbar_)),
+        status_(other.status_),
+        costs_(std::move(other.costs_)),
+        grad_(std::move(other.grad_)),
+        rho_(other.rho_),
+        drho_(other.drho_),
+        deltaV_(std::move(other.deltaV_)),
+        is_initial_state_set(other.is_initial_state_set),
+        max_violation_callback_(std::move(other.max_violation_callback_)) {}
 
   /**
    * @brief Copy the data from a Problem class into the iLQR solver
@@ -407,7 +408,6 @@ class iLQR {
 
         // Handle solve failure
         if (info != Eigen::Success) {
-
           IncreaseRegularization();
 
           // Reset the cost-to-go pointers to the terminal expansion
@@ -438,8 +438,8 @@ class iLQR {
         if (k == 0) {
           repeat_backwardpass = false;
         }
-      } // end for
-    } // end while
+      }  // end for
+    }    // end while
     stats_.Log("reg", rho_);
     DecreaseRegularization();
   }

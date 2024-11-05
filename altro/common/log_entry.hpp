@@ -5,24 +5,31 @@
 #include <fmt/color.h>
 #include <fmt/format.h>
 #include <fmt/ostream.h>
+#include <fmt/printf.h>
+#include <fmt/std.h>
+
+#include <Eigen/Eigen>
+
+template <>
+struct fmt::formatter<Eigen::MatrixXd> : ostream_formatter {};
 
 namespace altro {
 
 /**
  * @brief Verbose output level
- * 
+ *
  * Higher levels include all the input from lower levels.
- * 
+ *
  * Both "outer" levels print information about the augmented Lagrangian iterations,
- * while the "inner" levels print information about the iLQR iterations. 
- * 
+ * while the "inner" levels print information about the iLQR iterations.
+ *
  * When printing "inner" iterations the header is printed at every outer AL iteration.
- * 
+ *
  * The secondary "debug" levels provide a few extra fields, while the lowest-level "kDebug"
  * prints everything recorded by the logger.
- * 
+ *
  * The specific values included in each level are subject to change in future revisions.
- * 
+ *
  */
 enum class LogLevel {
   kSilent = 0,
@@ -108,9 +115,9 @@ class LogEntry {
 
   /**
    * @brief Set the type of the entry.
-   * 
+   *
    * The type is any of kInt, kDouble, or kString
-   * 
+   *
    * @param type entry type
    * @return Reference to the log entry.
    */
@@ -118,15 +125,15 @@ class LogEntry {
 
   /**
    * @brief Set the name of the entry
-   * 
-   * The name should be a short but descriptive string, about what you would 
+   *
+   * The name should be a short but descriptive string, about what you would
    * use for a variable name.
-   * 
+   *
    * For example, if we're logging a penalty parameter, the title could be something
    * short like "pen" or "rho", and the name would be "penalty" or "penalty parameter".
-   * 
-   * @param name 
-   * @return LogEntry& 
+   *
+   * @param name
+   * @return LogEntry&
    */
   LogEntry& SetName(const std::string& name);
 
@@ -164,7 +171,8 @@ class LogEntry {
    * @param level Current verbosity level.
    * @param color Color of the header (default is white).
    */
-  void PrintHeader(const LogLevel level = LogLevel::kSilent, const fmt::color color = fmt::color::white) {
+  void PrintHeader(const LogLevel level = LogLevel::kSilent,
+                   const fmt::color color = fmt::color::white) {
     if (IsActive(level)) {
       fmt::print(fg(color), "{:>{}}", title_, width_);
     }
@@ -212,20 +220,20 @@ class LogEntry {
 
   static constexpr int kDefaultWidth = 10;
 
-  std::string title_;     // title of the entry to appear in the header
-  std::string name_;      // descriptive name (e.g. "penalty parameter" vs. "pen")
-  std::string format_;    // Python-style format string
-  std::string data_;      // storage for the logged data
+  std::string title_;   // title of the entry to appear in the header
+  std::string name_;    // descriptive name (e.g. "penalty parameter" vs. "pen")
+  std::string format_;  // Python-style format string
+  std::string data_;    // storage for the logged data
   EntryType type_;
-  LogLevel level_ = LogLevel::kInner;         // verbosity level
-  int width_ = kDefaultWidth;        // column width
-  bool bounded_ = false;  // does the field have conditional formatting
+  LogLevel level_ = LogLevel::kInner;  // verbosity level
+  int width_ = kDefaultWidth;          // column width
+  bool bounded_ = false;               // does the field have conditional formatting
   double lower_ = -std::numeric_limits<double>::infinity();  // lower bound
   double upper_ = +std::numeric_limits<double>::infinity();  // upper bound
-  fmt::color color_ = fmt::color::white;                            // current color to be printed
-  fmt::color color_default_ = fmt::color::white;                     // default color (bounds are satisfied)
-  fmt::color color_lower_ = fmt::color::green;                      // color if below lower bound
-  fmt::color color_upper_ = fmt::color::red;                        // color if above upper bound
+  fmt::color color_ = fmt::color::white;                     // current color to be printed
+  fmt::color color_default_ = fmt::color::white;             // default color (bounds are satisfied)
+  fmt::color color_lower_ = fmt::color::green;               // color if below lower bound
+  fmt::color color_upper_ = fmt::color::red;                 // color if above upper bound
 };
 
 }  // namespace altro

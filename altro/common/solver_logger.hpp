@@ -6,12 +6,12 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 #include <limits>
-#include <vector>
 #include <map>
 #include <unordered_map>
+#include <vector>
 
-#include "altro/utils/assert.hpp"
 #include "altro/common/log_entry.hpp"
+#include "altro/utils/assert.hpp"
 
 namespace altro {
 
@@ -25,11 +25,11 @@ namespace altro {
  *
  * The key for each entry is the title specified by the LogEntry (the name
  * printed in the header).
- * 
+ *
  * # Example
- * The follow example creates a simple logger with interger and floating point 
+ * The follow example creates a simple logger with interger and floating point
  * entries, sets the header color, the header print frequency, and logs and prints
- * some data. 
+ * some data.
  * @code {.cpp}
  * // Create logger and add entries
    SolverLogger logger;
@@ -47,7 +47,7 @@ namespace altro {
    logger.Print();
    logger.Log("iters", 2);
    logger.Print();  // keeps "10" in "cost" column
-   logger.Clear() 
+   logger.Clear()
  * @endcode
  */
 class SolverLogger {
@@ -85,23 +85,23 @@ class SolverLogger {
 
   /**
    * @brief Set the verbosity level of the logger.
-   * 
-   * @param level 
+   *
+   * @param level
    */
   void SetLevel(const LogLevel level) { cur_level_ = level; }
 
   /**
    * @brief Disable all output.
-   * 
+   *
    */
   void Disable() { SetLevel(LogLevel::kSilent); }
 
   /**
    * @brief Set the frequency at which the header is printed.
-   * 
+   *
    * If the frequency is set to 5, the header will be printed every 5 iterations.
-   * 
-   * @param freq 
+   *
+   * @param freq
    */
   void SetFrequency(const int freq) {
     ALTRO_ASSERT(freq >= 0, "Header print frequency must be positive.");
@@ -113,7 +113,7 @@ class SolverLogger {
    *
    * It is the user's responsibility to ensure the provided data is consistent
    * with the format spec for the given field.
-   * 
+   *
    * Will not log the data if the entry isn't active at the current verbosity level.
    *
    * @tparam T data type of the given data.
@@ -126,8 +126,8 @@ class SolverLogger {
 
   /**
    * @brief Print the header
-   * 
-   * Prints the titles of all of the active entries, followed by a horizontal rule 
+   *
+   * Prints the titles of all of the active entries, followed by a horizontal rule
    * and a line break.
    * Will not print anything if the current verbosity level is 0.
    */
@@ -135,7 +135,7 @@ class SolverLogger {
 
   /**
    * @brief Print a data row
-   * 
+   *
    * Prints the data (including conditional formatting) for all active entries.
    * Will not print anything if the current verbosity level is 0.
    */
@@ -143,20 +143,20 @@ class SolverLogger {
 
   /**
    * @brief Automatically prints the header at a specified frequency
-   * 
+   *
    */
   void Print();
 
   /**
    * @brief Clear all of the data entries in the table.
-   * 
+   *
    */
   void Clear();
 
   /**
    * @brief Set the color of the header and it's horizontal rule
-   * 
-   * @param color One of the colors provided by the fmt library 
+   *
+   * @param color One of the colors provided by the fmt library
    * (e.g. fmt::color::green, fmt::color::yellow, fmt::color::red, fmt::color::white, etc.)
    */
   void SetHeaderColor(const fmt::color color) { header_color_ = color; }
@@ -164,9 +164,9 @@ class SolverLogger {
  private:
   static constexpr int kDefaultFrequency = 10;
 
-  LogLevel cur_level_ = LogLevel::kSilent;   // Current verbosity level
-  int frequency_ = kDefaultFrequency;        // frequency of the header print
-  int count_ = 0;                            // number of prints since header
+  LogLevel cur_level_ = LogLevel::kSilent;  // Current verbosity level
+  int frequency_ = kDefaultFrequency;       // frequency of the header print
+  int count_ = 0;                           // number of prints since header
   std::unordered_map<std::string, LogEntry> entries_;
   std::vector<const std::string*> order_;
   fmt::color header_color_ = fmt::color::white;
@@ -213,6 +213,5 @@ void SolverLogger::Log(const std::string& title, T value) {
     entries_[title].Log(value);
   }
 }
-
 
 }  // namespace altro

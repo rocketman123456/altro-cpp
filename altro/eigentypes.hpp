@@ -15,7 +15,7 @@ using VectorNd = Eigen::Matrix<double, n, 1>;
 template <int n, int m>
 using MatrixNxMd = Eigen::Matrix<double, n, m>;
 
-using VectorXdRef = Eigen::Ref<const Eigen::VectorXd>; 
+using VectorXdRef = Eigen::Ref<const Eigen::VectorXd>;
 
 template <int n, int m>
 using RowMajorNxMd = Eigen::Matrix<double, n, m, Eigen::RowMajor>;
@@ -27,4 +27,4 @@ using VectorXf = Eigen::VectorXf;
 using MatrixXd = Eigen::MatrixXd;
 using MatrixXf = Eigen::MatrixXf;
 
-}  // namespace altro 
+}  // namespace altro
