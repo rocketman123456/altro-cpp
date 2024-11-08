@@ -5,7 +5,6 @@ add_library(cost_function_examples
 target_link_libraries(cost_function_examples
   PUBLIC
   problem
-
   PRIVATE
   utils
 )

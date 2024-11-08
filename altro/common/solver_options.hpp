@@ -2,23 +2,25 @@
 
 #pragma once
 
-#include <thread>
 #include <cmath>
+#include <thread>
 
-#include "altro/utils/utils.hpp"
 #include "altro/common/solver_logger.hpp"
+#include "altro/utils/utils.hpp"
 
-namespace altro {
+namespace altro
+{
 
-constexpr int kPickHardwareThreads = -1;
+    constexpr int kPickHardwareThreads = -1;
 
-/**
- * @brief Options for augmented Lagrangian and iLQR solvers
- * 
- */
-struct SolverOptions {
-  SolverOptions();
-  // clang-format off
+    /**
+     * @brief Options for augmented Lagrangian and iLQR solvers
+     *
+     */
+    struct SolverOptions
+    {
+        SolverOptions();
+        // clang-format off
   // NOLINT comments added to supress clang-tidy [readibility-magic-numbers] check
   int max_iterations_total = 300;         // NOLINT Maximum number of total iterative LQR iterations
   int max_iterations_outer = 30;          // NOLINT Maximum augmented Lagrangian iterations
@@ -54,14 +56,16 @@ struct SolverOptions {
   std::string profile_filename = "profiler.out";
   int nthreads = 1;                        // Number of processors to use. Set to kPickHardwareThreads to choose automatically.
   int tasks_per_thread = 1;
-  // clang-format on
+        // clang-format on
 
-  int NumThreads() const {
-    if (nthreads == kPickHardwareThreads) {
-      return std::thread::hardware_concurrency();
-    }
-    return std::max(nthreads, 1);
-  }
-};
+        int NumThreads() const
+        {
+            if (nthreads == kPickHardwareThreads)
+            {
+                return std::thread::hardware_concurrency();
+            }
+            return std::max(nthreads, 1);
+        }
+    };
 
-}  // namespace altro
+} // namespace altro

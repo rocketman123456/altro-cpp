@@ -7,9 +7,10 @@
 #include "altro/eigentypes.hpp"
 #include "altro/utils/utils.hpp"
 
-namespace altro {
+namespace altro
+{
 
-// clang-format off
+    // clang-format off
 /**
  * @brief Represents a generic vector-valued function of the form 
  * \f[
@@ -86,48 +87,48 @@ class FunctionBase {
   static constexpr double kDefaultTolerance = 1e-4;
 };
 
-// clang-format on
-/**
- * @brief Represents an abstract scalar-valued function
- *
- * A specialization of the `FunctionBase` interface to scalar-valued functions.
- *
- * For notational convenience, we define the gradient to be a column-vector
- * of the first derivative of a scalar function. This is the transpose of the
- * corresponding Jacobian.
- *
- * The Hessian is then just the Jacobian of the gradient.
- *
- * The `CheckGradient` and `CheckHessian` functions can be used to verify the
- * derivatives implemented by the user. Note that when passing parameters to
- * `CheckHessian`, the `b` vector argument still needs to be specified, even
- * though this is not required in the scalar function interface.
- *
- * # Interface
- * The user must define the following functions:
- * - `int StateDimension() const` - number of states (length of x)
- * - `int ControlDimension() const` - number of controls (length of u)
- * - `double Evaluate(const VectorXdRef& x, const VectorXdRef& u)`
- * - `void Gradient(const VectorXdRef& x, const VectorXdRef& u, Eigen::Ref<Eigen::VectorXd> out)`
- * - `void Hessian(const VectorXdRef& x, const VectorXdRef& u, Eigen::Ref<Eigen::MatrixXd> hess)`
- * - `bool HasHessian() const` - Specify if the Hessian is implemented - optional (assumed to be
- * true)
- *
- * Where we use the following Eigen type alias:
- * 
- *      using VectorXdRef = Eigen::Ref<const Eigen::VectorXd>
- *
- * The user also has the option of defining the static constants:
- * 
- *      static constexpr int NStates
- *      static constexpr int NControls
- *
- * which can be used to provide compile-time size information. These values
- * can be queried on run-time types using the `StateMemorySize`, and `ControlMemorySize`
- * functions.
- *
- */
-// clang-format off
+    // clang-format on
+    /**
+     * @brief Represents an abstract scalar-valued function
+     *
+     * A specialization of the `FunctionBase` interface to scalar-valued functions.
+     *
+     * For notational convenience, we define the gradient to be a column-vector
+     * of the first derivative of a scalar function. This is the transpose of the
+     * corresponding Jacobian.
+     *
+     * The Hessian is then just the Jacobian of the gradient.
+     *
+     * The `CheckGradient` and `CheckHessian` functions can be used to verify the
+     * derivatives implemented by the user. Note that when passing parameters to
+     * `CheckHessian`, the `b` vector argument still needs to be specified, even
+     * though this is not required in the scalar function interface.
+     *
+     * # Interface
+     * The user must define the following functions:
+     * - `int StateDimension() const` - number of states (length of x)
+     * - `int ControlDimension() const` - number of controls (length of u)
+     * - `double Evaluate(const VectorXdRef& x, const VectorXdRef& u)`
+     * - `void Gradient(const VectorXdRef& x, const VectorXdRef& u, Eigen::Ref<Eigen::VectorXd> out)`
+     * - `void Hessian(const VectorXdRef& x, const VectorXdRef& u, Eigen::Ref<Eigen::MatrixXd> hess)`
+     * - `bool HasHessian() const` - Specify if the Hessian is implemented - optional (assumed to be
+     * true)
+     *
+     * Where we use the following Eigen type alias:
+     *
+     *      using VectorXdRef = Eigen::Ref<const Eigen::VectorXd>
+     *
+     * The user also has the option of defining the static constants:
+     *
+     *      static constexpr int NStates
+     *      static constexpr int NControls
+     *
+     * which can be used to provide compile-time size information. These values
+     * can be queried on run-time types using the `StateMemorySize`, and `ControlMemorySize`
+     * functions.
+     *
+     */
+    // clang-format off
 class ScalarFunction : public FunctionBase {
  public:
   static const int NOutputs = 1;

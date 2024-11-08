@@ -2,13 +2,16 @@
 
 #include "altro/common/solver_options.hpp"
 
-namespace altro {
+namespace altro
+{
 
 #ifndef LOGDIR
-constexpr const char* kLogDirectory = "logs";
+    constexpr const char* kLogDirectory = "logs";
 #else
-constexpr const char* kLogDirectory = LOGDIR;
+    constexpr const char* kLogDirectory = LOGDIR;
 #endif
 
-SolverOptions::SolverOptions() : log_directory(kLogDirectory) {}
-}  // namespace altro
+    SolverOptions::SolverOptions()
+        : log_directory(kLogDirectory)
+    {}
+} // namespace altro

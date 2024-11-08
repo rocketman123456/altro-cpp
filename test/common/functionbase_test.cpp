@@ -6,7 +6,5 @@
 
 #include "altro/common/functionbase.hpp"
 
-namespace altro {
-
-
-}  // namespace altro
+namespace altro
+{} // namespace altro
